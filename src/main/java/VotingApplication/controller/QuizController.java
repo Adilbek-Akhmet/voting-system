@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
-@RequestMapping(path = "/quiz")
+@RequestMapping("/quiz")
 public class QuizController {
 
 	private QuizService quizService;
@@ -42,43 +42,43 @@ public class QuizController {
 	}
 
 	@PostMapping("/addQuiz")
-	public String addQuiz(@ModelAttribute("quiz") Quiz quiz, Model model) {
+	public String addQuiz(@ModelAttribute("quiz") Quiz quiz) {
 		quizService.save(quiz);
-		model.addAttribute("quizId", quiz.getId());
-		return "redirect:/addQuestion/{quizId}";
+		return "redirect:/quiz/addQuestion/"+quiz.getId();
 	}
 
 	@GetMapping("/addQuestion/{quizId}")
 	public String addQuestionPage(@PathVariable("quizId") int quizId, Model model) {
-        /*Question question = new Question();
-        question.setQuiz(quizService.getById(quizId));*/
 		model.addAttribute("question", new Question());
-		// model.addAttribute("quiz", quizService.getById(quizId));
 		return "addQuestion";
 	}
 
-	//@ModelAttribute("quiz") Quiz quiz,
 	@PostMapping("/addQuestion/{quizId}")
-	public String addQuestion(@PathVariable("quizId") int quizId,  @ModelAttribute("question") Question question, Model model) {
+	public String addQuestion(@PathVariable("quizId") int quizId,
+	                          @ModelAttribute("question") Question question,
+	                          Model model) {
 		question.setQuiz(quizService.getById(quizId));
 		questionService.save(question);
-		int questionId = question.getId();
-		model.addAttribute("questionId", questionId);
-		return "redirect:/addQuestion/{quizId}/{questionId}";
+		return "redirect:/quiz/addQuestion/{quizId}/"+ question.getId();
 	}
 
 	@GetMapping("/addQuestion/{quizId}/{questionId}")
-	public String addAnswerPage(@PathVariable("quizId") int quizId, @PathVariable("questionId") int questionId, Model model) {
+	public String addAnswerPage(@PathVariable("quizId") int quizId,
+	                            @PathVariable("questionId") int questionId,
+	                            Model model) {
 		model.addAttribute("answer", new Answer());
 		model.addAttribute("question", questionService.read(questionId));
 		return "addAnswerPage";
 	}
+
 	@PostMapping("/addQuestion/{quizId}/{questionId}")
-	public String addAnswer(@PathVariable("quizId") int quizId, @PathVariable("questionId") int questionId, @ModelAttribute("answer") Answer answer, Model model) {
+	public String addAnswer(@PathVariable("quizId") int quizId,
+	                        @PathVariable("questionId") int questionId,
+	                        @ModelAttribute("answer") Answer answer,
+	                        Model model) {
 		answer.setQuestion(questionService.read(questionId));
 		answerService.save(answer);
-		model.addAttribute("questionId", questionId);
-		return "redirect:/addQuestion/{quizId}/{questionId}";
+		return "redirect:/quiz/addQuestion/{quizId}/{questionId}";
 	}
 
 	@GetMapping("/allQuizzes")
@@ -89,10 +89,9 @@ public class QuizController {
 
 	@GetMapping("/quizzes/{id}")
 	public String runQuiz(@PathVariable("id") int id, Model model) {
-
 		List<Question> questions = questionService.questionByQuiz(id);
 		model.addAttribute("questions", questions);
-		return "/questions";
+		return "questions";
 	}
 
 	@PostMapping("/quizzes/{id}")
@@ -104,23 +103,15 @@ public class QuizController {
 			if (correctAnswerId == Integer.parseInt(request.getParameter("question_"+questionId))) {
 				score++;
 			}
-
 		}
-		//request.setAttribute("score", score);
 		model.addAttribute("score", score);
-		System.out.println(score);
-		return "redirect:/result";
-	}
-
-	@GetMapping("/result")
-	public String result(@ModelAttribute("score") int score) {
 		return "result";
 	}
 
 	@GetMapping("/delete/{id}")
-	public String deleteQuiz(@PathVariable("id") int id, Model model) {
+	public String deleteQuiz(@PathVariable("id") int id) {
 		quizService.delete(id);
-		return "redirect:/allQuizzes";
+		return "redirect:/quiz/allQuizzes";
 	}
 
 	@GetMapping("/edit/{id}")
@@ -134,7 +125,7 @@ public class QuizController {
 	@PostMapping("/editQuiz")
 	public String editQuiz(@ModelAttribute("quiz") Quiz quiz) {
 		quizService.save(quiz);
-		return "redirect:/allQuizzes";
+		return "redirect:/quiz/allQuizzes";
 	}
 
 

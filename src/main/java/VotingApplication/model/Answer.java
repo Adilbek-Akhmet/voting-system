@@ -13,8 +13,8 @@ public class Answer {
 	@Column(name = "content")
 	private String content;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "questionId")
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+	@JoinColumn(name = "question_id")
 	private Question question;
 
 	@Column(name = "correct")

@@ -1,5 +1,7 @@
 package VotingApplication.model;
 
+import org.hibernate.engine.internal.Cascade;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -16,10 +18,10 @@ public class Question {
 	private String content;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "quizId")
+	@JoinColumn(name = "quiz_id")
 	private Quiz quiz;
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "question")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "question", cascade = CascadeType.REMOVE)
 	private Set<Answer> answers = new HashSet<>();
 
 

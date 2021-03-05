@@ -24,12 +24,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                    .antMatchers("/quiz/*").permitAll()
-                    .antMatchers("/voting-system/registration").permitAll()
-                .anyRequest()
-                .authenticated()
-                .and()
-                .formLogin();
+                .anyRequest().permitAll();
     }
 
     @Override
