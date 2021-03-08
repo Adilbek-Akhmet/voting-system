@@ -1,17 +1,16 @@
 package VotingApplication.model;
 
-import lombok.AllArgsConstructor;
+import VotingApplication.model.enums.Role;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 
 import javax.persistence.*;
 import java.util.Collection;
-import java.util.Collections;
 
 @Getter
 @Setter
@@ -23,22 +22,36 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String email;
+    private String password;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
     private String firstName;
     private String lastName;
     private String groupName;
     private Integer age;
     private String interests;
-    private String email;
-    private String password;
 
-    @Enumerated(EnumType.STRING)
-    private UserRole userRole;
+    public User(String email, String password, Role role, String firstName, String lastName, String groupName, Integer age, String interests) {
+        this.email = email;
+        this.password = password;
+        this.role = role;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.groupName = groupName;
+        this.age = age;
+        this.interests = interests;
+    }
 
+    public String decode(String password) {
+        return decode(password);
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(userRole.name());
-        return Collections.singletonList(authority);
+        return role.getGrantedAuthorities();
     }
 
     @Override
@@ -53,7 +66,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override

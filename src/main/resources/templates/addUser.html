@@ -1,0 +1,46 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Please sign in</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous">
+</head>
+<body data-new-gr-c-s-check-loaded="14.997.0" data-gr-ext-installed="">
+<div class="container">
+    <form action="#" th:action="@{/voting-system/authentication/registration}" th:object="${request}" th:method="post">
+        <h2 class="form-signin-heading text-center">Add New User</h2>
+        <hr><br>
+        <p>
+            <label for="email" class="sr-only">Email</label>
+            <input type="text" id="email" name="email" class="form-control" placeholder="Email" required="" autofocus="">
+        </p>
+        <p>
+            <label for="password" class="sr-only">Password</label>
+            <input type="password" id="password" name="password" class="form-control" placeholder="Password" required="">
+        </p>
+        <p>
+            <label for="firstName" class="sr-only">First Name</label>
+            <input type="text" id="firstName" name="firstName" class="form-control" placeholder="First Name" required="">
+        </p>
+        <p>
+            <label for="lastName" class="sr-only">Last Name</label>
+            <input type="text" id="lastName" name="lastName" class="form-control" placeholder="Last Name" required="">
+        </p>
+        <p>
+            <label for="groupName" class="sr-only">Group Name</label>
+            <input type="text" id="groupName" name="groupName" class="form-control" placeholder="Group Name" required="">
+        </p>
+        <p>
+            <label for="age" class="sr-only">Age</label>
+            <input type="number" id="age" name="age" class="form-control" placeholder="Age" required="">
+        </p>
+        <p>
+            <label for="interests" class="sr-only">Interests</label>
+            <input type="text" id="interests" name="interests" class="form-control" placeholder="Interests" required="">
+        </p>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Add</button>
+    </form>
+</div>
+</body></html>
