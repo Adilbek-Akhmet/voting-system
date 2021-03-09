@@ -7,6 +7,7 @@ import VotingApplication.service.AnswerService;
 import VotingApplication.service.QuestionService;
 import VotingApplication.service.QuizService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -35,6 +36,7 @@ public class QuizController {
 
 
 	@GetMapping("/addQuiz")
+	@PreAuthorize("hasAuthority('QUIZ_ADD')")
 	public String addQuizPage(Model model) {
 		model.addAttribute("act", "Save");
 		model.addAttribute("quiz", new Quiz());
@@ -48,6 +50,7 @@ public class QuizController {
 	}
 
 	@GetMapping("/addQuestion/{quizId}")
+	@PreAuthorize("hasAuthority('QUESTION_ADD')")
 	public String addQuestionPage(@PathVariable("quizId") int quizId, Model model) {
 		model.addAttribute("question", new Question());
 		return "addQuestion";
@@ -63,6 +66,7 @@ public class QuizController {
 	}
 
 	@GetMapping("/addQuestion/{quizId}/{questionId}")
+	@PreAuthorize("hasAuthority('ANSWER_ADD')")
 	public String addAnswerPage(@PathVariable("quizId") int quizId,
 	                            @PathVariable("questionId") int questionId,
 	                            Model model) {
@@ -82,12 +86,14 @@ public class QuizController {
 	}
 
 	@GetMapping("/allQuizzes")
+	@PreAuthorize("hasAuthority('QUIZ_UPDATE')")
 	public String allQuizzesPage(Model model) {
 		model.addAttribute("quizzes", quizService.listAll());
 		return "allQuizzes";
 	}
 
 	@GetMapping("/quizzes/{id}")
+	@PreAuthorize("hasAuthority('QUIZ_READ')")
 	public String runQuiz(@PathVariable("id") int id, Model model) {
 		List<Question> questions = questionService.questionByQuiz(id);
 		model.addAttribute("questions", questions);
@@ -109,17 +115,20 @@ public class QuizController {
 	}
 
 	@GetMapping("/delete/{id}")
+	@PreAuthorize("hasAuthority('QUIZ_DELETE')")
 	public String deleteQuiz(@PathVariable("id") int id) {
 		quizService.delete(id);
 		return "redirect:/quiz/allQuizzes";
 	}
 
 	@GetMapping("/edit/{id}")
+	@PreAuthorize("hasAuthority('QUIZ_UPDATE')")
 	public String editQuizPage(@PathVariable("id") int id, Model model) {
 		model.addAttribute("quiz", quizService.getById(id));
 		model.addAttribute("quizId", id);
-		model.addAttribute("act", "Edit");
-		return "addQuizPage";
+		List<Question> questions = questionService.questionByQuiz(id);
+		model.addAttribute("questions", questions);
+		return "editQuiz";
 	}
 
 	@PostMapping("/editQuiz")
@@ -128,5 +137,60 @@ public class QuizController {
 		return "redirect:/quiz/allQuizzes";
 	}
 
+	@GetMapping("/editQuestion/{quizId}/{id}")
+	@PreAuthorize("hasAuthority('QUESTION_UPDATE')")
+	public String editQuestionPage(@PathVariable("quizId") int quizId,
+	                               @PathVariable("id") int id,
+	                               Model model) {
+		model.addAttribute("quizId", quizId);
+		model.addAttribute("question", questionService.getById(id));
+		model.addAttribute("questionId", id);
+		List<Answer> answers = answerService.answerByQuestion(id);
+		model.addAttribute("answers", answers);
+		return "editQuestion";
+	}
 
+	@PostMapping("/editQuestion/{quizId}")
+	public String editQuestion(@PathVariable("quizId") int quizId,
+	                           @ModelAttribute("question") Question question) {
+		question.setQuiz(quizService.getById(quizId));
+		questionService.save(question);
+		return "redirect:/quiz/allQuizzes";
+	}
+
+	@GetMapping("/deleteQuestion/{id}")
+	@PreAuthorize("hasAuthority('QUESTION_DELETE')")
+	public String deleteQuestion(@PathVariable("id") int id) {
+		questionService.delete(id);
+		return "redirect:/quiz/allQuizzes";
+	}
+
+	@GetMapping("/editAnswer/{quizId}/{questionId}/{id}")
+	@PreAuthorize("hasAuthority('ANSWER_UPDATE')")
+	public String editAnswerPage(@PathVariable("quizId") int quizId,
+	                             @PathVariable("questionId") int questionId,
+	                             @PathVariable("id") int id,
+	                             Model model) {
+		model.addAttribute("quizId", quizId);
+		model.addAttribute("questionId", questionId);
+		model.addAttribute("answer", answerService.getById(id));
+		model.addAttribute("answerId", id);
+		return "editAnswer";
+	}
+
+	@PostMapping("/editAnswer/{quizId}/{questionId}")
+	public String editAnswer(@PathVariable("quizId") int quizId,
+	                         @PathVariable("questionId") int questionId,
+	                         @ModelAttribute("answer") Answer answer) {
+		answer.setQuestion(questionService.getById(questionId));
+		answerService.save(answer);
+		return "redirect:/quiz/allQuizzes";
+	}
+
+	@GetMapping("/deleteAnswer/{id}")
+	@PreAuthorize("hasAuthority('ANSWER_DELETE')")
+	public String deleteAnswer(@PathVariable("id") int id) {
+		answerService.delete(id);
+		return "redirect:/quiz/allQuizzes";
+	}
 }

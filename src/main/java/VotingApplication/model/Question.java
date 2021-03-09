@@ -1,5 +1,7 @@
 package VotingApplication.model;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.engine.internal.Cascade;
 
 import javax.persistence.*;
@@ -18,10 +20,11 @@ public class Question {
 	private String content;
 
 	@ManyToOne(fetch = FetchType.LAZY)
+	//@OnDelete(action = OnDeleteAction.CASCADE)
 	@JoinColumn(name = "quiz_id")
 	private Quiz quiz;
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "question", cascade = CascadeType.REMOVE)
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "question")
 	private Set<Answer> answers = new HashSet<>();
 
 

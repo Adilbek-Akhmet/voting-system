@@ -1,5 +1,8 @@
 package VotingApplication.model;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 
 @Entity
@@ -13,7 +16,8 @@ public class Answer {
 	@Column(name = "content")
 	private String content;
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+	@ManyToOne(fetch = FetchType.LAZY)
+	//@OnDelete(action = OnDeleteAction.CASCADE)
 	@JoinColumn(name = "question_id")
 	private Question question;
 
