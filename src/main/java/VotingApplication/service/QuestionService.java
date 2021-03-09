@@ -10,4 +10,6 @@ public interface QuestionService {
     List<Question> questionByQuiz(int id);
     void save(Question question);
     int findCorrectAnswerId(int questionId);
+    Question getById(int id);
+	void delete(int id);
 }

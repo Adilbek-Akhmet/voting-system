@@ -27,11 +27,21 @@ public class AnswerServiceImpl implements AnswerService {
 
     @Override
     public List<Answer> answerByQuestion(int id) {
-        return null;
+        return answerRepository.findByQuestionId(id);
     }
 
     @Override
     public void save(Answer answer) {
         answerRepository.save(answer);
+    }
+
+    @Override
+    public void delete(int id) {
+        answerRepository.deleteById(id);
+    }
+
+    @Override
+    public Answer getById(int id) {
+        return answerRepository.getOne(id);
     }
 }

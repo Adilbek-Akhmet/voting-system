@@ -10,4 +10,6 @@ public interface AnswerService {
     Answer read(int id);
     List<Answer> answerByQuestion(int id);
     public void save(Answer answer);
+	void delete(int id);
+	Answer getById(int id);
 }
