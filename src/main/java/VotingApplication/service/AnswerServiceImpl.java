@@ -22,7 +22,7 @@ public class AnswerServiceImpl implements AnswerService {
 
     @Override
     public Answer read(int id) {
-        return answerRepository.findById(id).get();
+        return answerRepository.getOne(id);
     }
 
     @Override

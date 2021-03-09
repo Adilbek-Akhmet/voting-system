@@ -9,7 +9,7 @@
 </head>
 <body data-new-gr-c-s-check-loaded="14.997.0" data-gr-ext-installed="">
 <div class="container">
-    <form action="#" th:action="@{'/voting-system/users/edit'}" th:object="${user}" th:method="post">
+    <form action="#" th:action="@{'/voting-system/users/' + edit'}" th:object="${user}" th:method="post">
         <h2 class="form-signin-heading text-center">Edit</h2>
         <hr><br>
         <p>
@@ -41,16 +41,12 @@
             <input type="text" id="interests" name="interests" class="form-control" placeholder="Interests" required="" th:value="${user.getInterests()}">
         </p>
         <p>
-            <label for="role" class="sr-only">Role</label>
-            <input type="hidden" id="role" name="role" class="form-control"  required="" th:value="${user.getRole()}">
+            <label for="role">Select Role</label>
+            <select class="form-control" id="role" name="role">
+                <option>USER</option>
+                <option>ADMIN</option>
+            </select>
         </p>
-<!--        <p>-->
-<!--            <label for="role">Select Role</label>-->
-<!--            <select class="form-control" id="role" name="role">-->
-<!--                <option>USER</option>-->
-<!--                <option>ADMIN</option>-->
-<!--            </select>-->
-<!--        </p>-->
         <button class="btn btn-lg btn-primary btn-block" type="submit">Update</button>
     </form>
 </div>

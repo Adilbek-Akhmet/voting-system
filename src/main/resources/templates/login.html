@@ -1,4 +1,4 @@
-<html lang="en"><head>
+<html xmlns:th="http://www.thymeleaf.org" lang="en"><head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -22,6 +22,8 @@
             <input type="password" id="password" name="password" class="form-control" placeholder="Password" required="">
         </p>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        <br>
+        <p>If you don't have account, please <a th:href = "@{'/voting-system/authentication/registration'}" > Sign Up </a></p>
     </form>
 </div>
 </body></html>

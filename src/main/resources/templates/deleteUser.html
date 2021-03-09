@@ -10,11 +10,11 @@
 <body data-new-gr-c-s-check-loaded="14.997.0" data-gr-ext-installed="">
 <div class="container">
     <form action="#" th:action="@{'/voting-system/users/' + ${user.getId()} + '/delete'}" th:object="${user}" th:method="post">
-        <h2 class="form-signin-heading text-center">Edit</h2>
+        <h2 class="form-signin-heading text-center">Delete</h2>
         <hr><br>
         <p>
             <label for="email" class="sr-only">Email</label>
-            <input type="text" id="email" name="email" class="form-control" placeholder="Email" required="" th:value="${user.getEmail()}" autofocus="">
+            <input readonly type="text" id="email" name="email" class="form-control" placeholder="Email" required="" th:value="${user.getEmail()}" autofocus="">
         </p>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Delete</button>
     </form>
