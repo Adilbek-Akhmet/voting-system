@@ -2,10 +2,7 @@ package VotingApplication.dto;
 
 import lombok.*;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@ToString
+@Data
 public class RegistrationRequest {
 
     private String firstName;

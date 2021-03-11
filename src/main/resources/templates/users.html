@@ -16,8 +16,9 @@
     <h1>User List</h1>
 
     <a th:href = "@{'/voting-system/users/add'}" class="btn btn-primary btn-sm mb-3"> Add User </a>
+    <a th:href = "@{'/home'}" class="btn btn-primary btn-sm mb-3"> Home </a>
 
-    <table border="1" class = "table table-striped table-responsive-md">
+    <table border="1" class = "table table-striped table-responsive-sm mr-5">
         <thead>
         <tr>
             <th>
@@ -61,7 +62,7 @@
             <td th:text="${user.getAge()}"></td>
             <td th:text="${user.getInterests()}"></td>
             <td th:text="${user.getRole()}"></td>
-            <td> <a th:href = "@{'/voting-system/users/' + ${user.getId()} + '/edit'}"  class="btn btn-primary">Update</a>
+            <td> <a th:href = "@{'/voting-system/users/' + ${user.getId()} + '/update'}"  class="btn btn-primary">Update</a>
                 <hr>
                 <a th:href = "@{'/voting-system/users/' + ${user.getId()} + '/delete'}"  class="btn btn-danger">Delete</a>
             </td>

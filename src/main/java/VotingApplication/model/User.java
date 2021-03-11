@@ -45,10 +45,6 @@ public class User implements UserDetails {
         this.interests = interests;
     }
 
-    public String decode(String password) {
-        return decode(password);
-    }
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return role.getGrantedAuthorities();

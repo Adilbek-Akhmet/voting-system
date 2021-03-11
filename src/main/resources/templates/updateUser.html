@@ -9,7 +9,7 @@
 </head>
 <body data-new-gr-c-s-check-loaded="14.997.0" data-gr-ext-installed="">
 <div class="container">
-    <form action="#" th:action="@{'/voting-system/users/' + edit'}" th:object="${user}" th:method="post">
+    <form action="#" th:action="@{'/voting-system/users/' + ${user.getId()} + '/update'}" th:object="${user}" method="post">
         <h2 class="form-signin-heading text-center">Edit</h2>
         <hr><br>
         <p>

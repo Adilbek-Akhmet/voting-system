@@ -30,8 +30,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest()
                 .authenticated()
                 .and()
-                .formLogin().loginPage("/voting-system/authentication/login").permitAll()
-                .defaultSuccessUrl("/home");
+                .formLogin().loginPage("/voting-system/authentication/login")
+                .defaultSuccessUrl("/home")
+                .permitAll()
+                .and()
+                .logout()
+                .permitAll();
     }
 
     @Override

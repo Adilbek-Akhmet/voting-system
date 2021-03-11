@@ -10,6 +10,9 @@
 
 </head>
 <body>
+<a th:href = "@{'/voting-system/users/profile'}"  class="btn btn-primary">Profile</a>
+<a th:href = "@{'/admin'}"  class="btn btn-primary">Admin</a>
+<a th:href = "@{'/logout'}"  class="btn btn-primary">Log Out</a>
 
 <div class="card-columns">
     <div th:each="quiz : ${quizzes}">

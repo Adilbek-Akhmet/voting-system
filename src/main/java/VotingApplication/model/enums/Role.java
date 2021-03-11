@@ -16,10 +16,10 @@ import static VotingApplication.model.enums.Permission.*;
 public enum Role {
     ADMIN(Sets.newHashSet(
             QUESTION_READ, QUESTION_UPDATE, QUESTION_DELETE, QUESTION_ADD,
-            USER_ADD, USER_EDIT, USER_DELETE, USER_READ,
+            USER_ADD, USER_DELETE, USER_READ, USER_UPDATE, USER_EDIT,
             QUIZ_ADD, QUIZ_READ, QUIZ_DELETE, QUIZ_UPDATE,
             ANSWER_ADD, ANSWER_READ, ANSWER_DELETE, ANSWER_UPDATE)),
-    USER(Sets.newHashSet(QUESTION_READ, QUIZ_READ, ANSWER_READ));
+    USER(Sets.newHashSet(QUESTION_READ, QUIZ_READ, ANSWER_READ, USER_READ, USER_EDIT));
 
     private final Set<Permission> permissions;
 

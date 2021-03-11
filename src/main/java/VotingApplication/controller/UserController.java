@@ -5,6 +5,7 @@ import VotingApplication.model.User;
 import VotingApplication.repository.UserRepository;
 import VotingApplication.service.LoginService;
 import VotingApplication.service.RegistrationService;
+import VotingApplication.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,10 +24,11 @@ public class UserController {
 
     private final UserRepository userRepository;
     private final LoginService loginService;
+    private final UserService userService;
     private final RegistrationService registrationService;
 
     @GetMapping
-    @PreAuthorize("hasAuthority('USER_READ')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public String getAllUsers(Model model) {
         model.addAttribute("userList", userRepository.findAll());
         return "users";
@@ -52,30 +54,31 @@ public class UserController {
         return "redirect:/voting-system/users";
     }
 
-    @GetMapping("/{id}/edit")
-    @PreAuthorize("hasAuthority('USER_EDIT')")
+    @GetMapping("/{id}/update")
+    @PreAuthorize("hasAuthority('USER_UPDATE')")
     public String updateUser(@PathVariable("id") long id, Model model) {
         model.addAttribute("user", userRepository.getOne(id));
-        return "editUser";
+        return "updateUser";
     }
 
-    @PostMapping("/{id}/edit")
+    @PostMapping("/{id}/update")
     public String updateUser(@ModelAttribute("user") User user) {
         userRepository.save(user);
-        return "redirect:/voting-system/users/" + user.getId();
+        return "redirect:/voting-system/users/";
     }
 
     @GetMapping("/edit")
     @PreAuthorize("hasAuthority('USER_EDIT')")
     public String editUser(Model model) {
-        model.addAttribute("user", loginService.loggedUser());
+        User user = loginService.loggedUser();
+        model.addAttribute("user", user);
         return "editUser";
     }
 
     @PostMapping("/edit")
-    public String editUser(@ModelAttribute("user") User user, @PathVariable("id") long id) {
-        userRepository.save(user);
-        return "redirect:/voting-system/users/" + user.getId();
+    public String editUser(@ModelAttribute("user") User user) {
+        userService.updateUser(loginService.loggedUser(), user);
+        return "redirect:/voting-system/users/profile";
     }
 
     @GetMapping("/{id}/delete")
